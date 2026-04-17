@@ -1,6 +1,5 @@
 """Tests for the evaluation module metrics."""
 
-
 from evaluation.metrics import answer_correctness, answer_faithfulness, context_relevance
 
 
@@ -92,6 +91,7 @@ class TestGoldenQALoading:
     def test_golden_qa_loads(self):
         """The golden QA YAML file should load without errors."""
         from evaluation.evaluator import load_golden_qa
+
         qa_pairs = load_golden_qa()
         assert len(qa_pairs) >= 10
 

@@ -21,7 +21,8 @@ st.set_page_config(
 )
 
 # ── Custom CSS ─────────────────────────────────────────────────────────
-st.markdown("""
+st.markdown(
+    """
 <style>
     /* Main background */
     .stApp { background-color: #f8f9fb; }
@@ -139,10 +140,13 @@ st.markdown("""
     #MainMenu { visibility: hidden; }
     footer     { visibility: hidden; }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 
 # ── Helpers ────────────────────────────────────────────────────────────
+
 
 def fetch_health() -> dict | None:
     try:
@@ -184,7 +188,7 @@ def status_dot(ok: bool) -> str:
 
 # ── Session state ──────────────────────────────────────────────────────
 if "history" not in st.session_state:
-    st.session_state.history = []   # list of {question, answer, confidence, model, verified, total}
+    st.session_state.history = []  # list of {question, answer, confidence, model, verified, total}
 
 
 # ── Sidebar ────────────────────────────────────────────────────────────
@@ -320,7 +324,9 @@ if submitted:
     if len(question.strip()) < 10:
         st.warning("Please enter a question of at least 10 characters.")
     elif health is None:
-        st.error(f"Cannot reach the API server at {API_BASE}. Check that Railway is deployed and API_BASE_URL is set in Streamlit secrets.")
+        st.error(
+            f"Cannot reach the API server at {API_BASE}. Check that Railway is deployed and API_BASE_URL is set in Streamlit secrets."
+        )
     else:
         with st.spinner("Searching documents and generating answer..."):
             result = query_api(question.strip(), top_k)
@@ -333,8 +339,7 @@ if submitted:
             # ── Strip LLM "Sources Used" footer from answer ─────────
             raw_answer = result.get("answer", "")
             clean_answer = re.split(
-                r'\n+\*{0,2}(?:Sources? Used|References?|Sources?)\*{0,2}\s*[\:\-]?',
-                raw_answer, flags=re.IGNORECASE
+                r"\n+\*{0,2}(?:Sources? Used|References?|Sources?)\*{0,2}\s*[\:\-]?", raw_answer, flags=re.IGNORECASE
             )[0].strip()
 
             badge = confidence_badge(result.get("confidence", "low"))
@@ -371,15 +376,16 @@ if submitted:
             # ── Quality indicator bar ────────────────────────────────
             verified_count = sum(1 for s in sources if s.get("verified"))
             conf_explain = {
-                "high":   "strong semantic match (cosine similarity ≥ 0.65)",
+                "high": "strong semantic match (cosine similarity ≥ 0.65)",
                 "medium": "moderate semantic match (cosine similarity 0.45–0.65)",
-                "low":    "weak semantic match (cosine similarity < 0.45)",
+                "low": "weak semantic match (cosine similarity < 0.45)",
             }.get(conf, "")
-            halluc_val  = "✅ Passed" if answerable else "⚠️ Flagged"
-            halluc_col  = "#2e7d32" if answerable else "#c62828"
-            conf_col    = "#2e7d32" if conf == "high" else "#e65100" if conf == "medium" else "#c62828"
+            halluc_val = "✅ Passed" if answerable else "⚠️ Flagged"
+            halluc_col = "#2e7d32" if answerable else "#c62828"
+            conf_col = "#2e7d32" if conf == "high" else "#e65100" if conf == "medium" else "#c62828"
 
-            st.markdown(f"""
+            st.markdown(
+                f"""
 <div style="display:flex;gap:12px;margin:12px 0 20px 0;">
   <div style="flex:1;background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
     <div style="font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px">🔗 Citations Verified</div>
@@ -397,7 +403,9 @@ if submitted:
     <div style="font-size:11px;color:#888;margin-top:2px">two-layer resistance check</div>
   </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+                unsafe_allow_html=True,
+            )
 
             # ── Sources ──────────────────────────────────────────────
             if sources:
@@ -412,33 +420,43 @@ if submitted:
                     score_color = "#2e7d32" if score >= 0.65 else "#e65100" if score >= 0.45 else "#c62828"
                     doc = src.get("document", "Unknown").replace("_", " ")
                     section = src.get("section", "")
-                    verified_html = "<span style='color:#2e7d32;font-weight:600'>✅ Verified</span>" if verified else "<span style='color:#c62828;font-weight:600'>⚠️ Unverified</span>"
+                    verified_html = (
+                        "<span style='color:#2e7d32;font-weight:600'>✅ Verified</span>"
+                        if verified
+                        else "<span style='color:#c62828;font-weight:600'>⚠️ Unverified</span>"
+                    )
                     excerpt = src.get("text_excerpt", "").replace("<", "&lt;").replace(">", "&gt;")
 
-                    st.markdown(f"""
+                    st.markdown(
+                        f"""
 <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:16px 20px;margin:8px 0;box-shadow:0 1px 4px rgba(0,0,0,0.06)">
   <div style="font-size:14px;font-weight:700;color:#d32f2f;margin-bottom:8px">{i}. {doc}</div>
   <div style="font-size:12px;color:#555;margin-bottom:10px">📌 {section}</div>
   <div style="display:flex;gap:24px;font-size:13px;color:#333;margin-bottom:12px">
-    <span>📄 <b>Page(s):</b> {pages if pages else 'N/A'}</span>
+    <span>📄 <b>Page(s):</b> {pages if pages else "N/A"}</span>
     <span style="color:{score_color}"><b>▲ Relevance: {score:.2f}</b></span>
     <span>{verified_html}</span>
   </div>
   <div style="background:#f5f7ff;border-left:3px solid #c5cae9;border-radius:4px;padding:10px 14px;font-size:13px;color:#333;line-height:1.6">{excerpt}</div>
 </div>
-""", unsafe_allow_html=True)
+""",
+                        unsafe_allow_html=True,
+                    )
             else:
                 st.info("No sources returned.")
 
             # ── Save to history ──────────────────────────────────────
-            st.session_state.history.insert(0, {
-                "question":  question.strip(),
-                "answer":    clean_answer,
-                "confidence": conf,
-                "model":     model,
-                "verified":  verified_count,
-                "total":     len(sources),
-            })
+            st.session_state.history.insert(
+                0,
+                {
+                    "question": question.strip(),
+                    "answer": clean_answer,
+                    "confidence": conf,
+                    "model": model,
+                    "verified": verified_count,
+                    "total": len(sources),
+                },
+            )
 
 
 # ── Query History ───────────────────────────────────────────────────────
@@ -446,7 +464,9 @@ if st.session_state.history:
     st.divider()
     st.markdown("### 🕓 Query History")
     for i, item in enumerate(st.session_state.history):
-        conf_color = "#2e7d32" if item["confidence"] == "high" else "#e65100" if item["confidence"] == "medium" else "#c62828"
+        conf_color = (
+            "#2e7d32" if item["confidence"] == "high" else "#e65100" if item["confidence"] == "medium" else "#c62828"
+        )
         with st.expander(f"Q: {item['question'][:80]}{'...' if len(item['question']) > 80 else ''}", expanded=False):
             st.markdown(
                 f"<div style='font-size:11px;color:#888;margin-bottom:8px'>"

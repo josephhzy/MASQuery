@@ -19,15 +19,17 @@ def _make_retrieval_results(scores=None):
 
     results = []
     for i, score in enumerate(scores):
-        results.append(RetrievalResult(
-            chunk_id=f"test_p{i}_c{i}",
-            text=f"[Section: Test Section {i}] Content about regulation topic {i}.",
-            doc_name=f"TestDoc_{i}",
-            page_numbers=[i + 1],
-            section_header=f"Test Section {i}",
-            relevance_score=score,
-            rank=i + 1,
-        ))
+        results.append(
+            RetrievalResult(
+                chunk_id=f"test_p{i}_c{i}",
+                text=f"[Section: Test Section {i}] Content about regulation topic {i}.",
+                doc_name=f"TestDoc_{i}",
+                page_numbers=[i + 1],
+                section_header=f"Test Section {i}",
+                relevance_score=score,
+                rank=i + 1,
+            )
+        )
     return results
 
 
@@ -114,9 +116,7 @@ class TestDetectRefusal:
         assert _detect_refusal("No relevant information was found in the documents.")
 
     def test_normal_answer_not_flagged(self):
-        assert not _detect_refusal(
-            "Financial institutions must implement MFA for privileged accounts."
-        )
+        assert not _detect_refusal("Financial institutions must implement MFA for privileged accounts.")
 
     def test_detects_documents_do_not_contain(self):
         assert _detect_refusal("The documents do not contain relevant information about this topic.")
@@ -144,11 +144,12 @@ class TestGenerateAnswer:
         """When LLM_PROVIDER is anthropic, _call_claude should be invoked."""
         results = _make_retrieval_results([0.85, 0.70])
 
-        with patch("generator.LLM_PROVIDER", "anthropic"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_claude", return_value="MFA is required.") as mock_claude, \
-             patch("generator._call_openai") as mock_openai:
-
+        with (
+            patch("generator.LLM_PROVIDER", "anthropic"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_claude", return_value="MFA is required.") as mock_claude,
+            patch("generator._call_openai") as mock_openai,
+        ):
             gen_result = generate_answer("What is MFA?", results)
 
             mock_claude.assert_called_once()
@@ -159,11 +160,12 @@ class TestGenerateAnswer:
         """When LLM_PROVIDER is openai, _call_openai should be invoked."""
         results = _make_retrieval_results([0.85, 0.70])
 
-        with patch("generator.LLM_PROVIDER", "openai"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_openai", return_value="OpenAI says MFA is needed.") as mock_openai, \
-             patch("generator._call_claude") as mock_claude:
-
+        with (
+            patch("generator.LLM_PROVIDER", "openai"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_openai", return_value="OpenAI says MFA is needed.") as mock_openai,
+            patch("generator._call_claude") as mock_claude,
+        ):
             gen_result = generate_answer("What is MFA?", results)
 
             mock_openai.assert_called_once()
@@ -174,10 +176,11 @@ class TestGenerateAnswer:
         """Post-generation refusal detection should set is_answerable=False."""
         results = _make_retrieval_results([0.85, 0.70])
 
-        with patch("generator.LLM_PROVIDER", "anthropic"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_claude", return_value="I cannot answer this based on the provided documents."):
-
+        with (
+            patch("generator.LLM_PROVIDER", "anthropic"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_claude", return_value="I cannot answer this based on the provided documents."),
+        ):
             gen_result = generate_answer("Unrelated question?", results)
 
             assert gen_result.is_answerable is False
@@ -186,10 +189,11 @@ class TestGenerateAnswer:
         """When the LLM API fails with a generic error, should return a degraded response."""
         results = _make_retrieval_results([0.85, 0.70])
 
-        with patch("generator.LLM_PROVIDER", "anthropic"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_claude", side_effect=RuntimeError("API down")):
-
+        with (
+            patch("generator.LLM_PROVIDER", "anthropic"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_claude", side_effect=RuntimeError("API down")),
+        ):
             gen_result = generate_answer("What is the policy?", results)
 
             assert gen_result.is_answerable is False
@@ -199,10 +203,11 @@ class TestGenerateAnswer:
         """GenerationResult should carry the original retrieval scores."""
         results = _make_retrieval_results([0.85, 0.72])
 
-        with patch("generator.LLM_PROVIDER", "anthropic"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_claude", return_value="Answer text."):
-
+        with (
+            patch("generator.LLM_PROVIDER", "anthropic"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_claude", return_value="Answer text."),
+        ):
             gen_result = generate_answer("Test?", results)
 
             assert gen_result.retrieval_scores == [0.85, 0.72]
@@ -213,10 +218,11 @@ class TestGenerateAnswer:
 
         results = _make_retrieval_results([0.85, 0.70])
 
-        with patch("generator.LLM_PROVIDER", "anthropic"), \
-             patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."), \
-             patch("generator._call_claude", return_value="Cached answer.") as mock_claude:
-
+        with (
+            patch("generator.LLM_PROVIDER", "anthropic"),
+            patch("generator.load_system_prompt", return_value="System prompt text here that is long enough."),
+            patch("generator._call_claude", return_value="Cached answer.") as mock_claude,
+        ):
             # Clear cache before test
             generator._query_cache.clear()
 

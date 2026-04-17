@@ -27,6 +27,7 @@ class TestHealthEndpoint:
     def test_health_reports_no_index(self, client):
         """When no index loaded, health should reflect that."""
         import retriever
+
         original_index = retriever._index
         retriever._index = None
 
@@ -41,6 +42,7 @@ class TestDocumentsEndpoint:
     def test_documents_empty_when_no_index(self, client):
         """Should return empty list when no index exists."""
         import retriever
+
         original_meta = retriever._metadata
         retriever._metadata = None
 
@@ -62,6 +64,7 @@ class TestQueryEndpoint:
     def test_query_returns_503_when_no_index(self, client):
         """Should return 503 when FAISS index not loaded."""
         import retriever
+
         original_index = retriever._index
         original_meta = retriever._metadata
         retriever._index = None
@@ -90,11 +93,12 @@ class TestQueryEndpoint:
             )
         ]
 
-        with patch.object(retriever, 'is_index_loaded', return_value=True), \
-             patch.object(retriever, 'search', return_value=mock_results), \
-             patch('main.generate_answer') as mock_gen, \
-             patch('main.trace_response') as mock_trace:
-
+        with (
+            patch.object(retriever, "is_index_loaded", return_value=True),
+            patch.object(retriever, "search", return_value=mock_results),
+            patch("main.generate_answer") as mock_gen,
+            patch("main.trace_response") as mock_trace,
+        ):
             from generator import GenerationResult
             from tracer import SourceReference
 

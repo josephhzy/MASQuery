@@ -52,10 +52,7 @@ def _get_anthropic_client() -> anthropic.Anthropic:
     global _anthropic_client
     if _anthropic_client is None:
         if not ANTHROPIC_API_KEY:
-            raise ValueError(
-                "ANTHROPIC_API_KEY is not set. "
-                "Add it to your .env file based on .env.example."
-            )
+            raise ValueError("ANTHROPIC_API_KEY is not set. Add it to your .env file based on .env.example.")
         _anthropic_client = anthropic.Anthropic(
             api_key=ANTHROPIC_API_KEY,
             timeout=API_TIMEOUT,
@@ -68,10 +65,7 @@ def _get_openai_client() -> openai_lib.OpenAI:
     global _openai_client
     if _openai_client is None:
         if not OPENAI_API_KEY:
-            raise ValueError(
-                "OPENAI_API_KEY is not set. "
-                "Add it to your .env file based on .env.example."
-            )
+            raise ValueError("OPENAI_API_KEY is not set. Add it to your .env file based on .env.example.")
         _openai_client = openai_lib.OpenAI(
             api_key=OPENAI_API_KEY,
             timeout=API_TIMEOUT,
@@ -86,16 +80,13 @@ def load_system_prompt() -> str:
         prompt_path = PROMPTS_DIR / "system_prompt.txt"
         if not prompt_path.exists():
             raise FileNotFoundError(
-                f"System prompt not found at {prompt_path}. "
-                "Ensure prompts/system_prompt.txt exists."
+                f"System prompt not found at {prompt_path}. Ensure prompts/system_prompt.txt exists."
             )
         content = prompt_path.read_text().strip()
         if not content:
             raise ValueError(f"System prompt is empty at {prompt_path}.")
         if len(content) < 50:
-            raise ValueError(
-                f"System prompt appears corrupted (too short) at {prompt_path}."
-            )
+            raise ValueError(f"System prompt appears corrupted (too short) at {prompt_path}.")
         _system_prompt = content
     return _system_prompt
 
@@ -171,9 +162,7 @@ def _detect_refusal(response_text: str) -> bool:
     stop=stop_after_attempt(API_MAX_RETRIES),
     wait=wait_exponential(multiplier=API_RETRY_WAIT, min=1, max=10),
     reraise=True,
-    before_sleep=lambda retry_state: logger.warning(
-        f"Claude API retry {retry_state.attempt_number}/{API_MAX_RETRIES}"
-    ),
+    before_sleep=lambda retry_state: logger.warning(f"Claude API retry {retry_state.attempt_number}/{API_MAX_RETRIES}"),
 )
 def _call_claude(system: str, user_message: str) -> str:
     """
@@ -202,9 +191,7 @@ def _call_claude(system: str, user_message: str) -> str:
     stop=stop_after_attempt(API_MAX_RETRIES),
     wait=wait_exponential(multiplier=API_RETRY_WAIT, min=1, max=10),
     reraise=True,
-    before_sleep=lambda retry_state: logger.warning(
-        f"OpenAI API retry {retry_state.attempt_number}/{API_MAX_RETRIES}"
-    ),
+    before_sleep=lambda retry_state: logger.warning(f"OpenAI API retry {retry_state.attempt_number}/{API_MAX_RETRIES}"),
 )
 def _call_openai(system: str, user_message: str) -> str:
     """
@@ -233,8 +220,9 @@ def _call_openai(system: str, user_message: str) -> str:
 @dataclass
 class GenerationResult:
     """Structured result from answer generation."""
+
     answer: str
-    confidence: str          # "high" | "medium" | "low"
+    confidence: str  # "high" | "medium" | "low"
     is_answerable: bool
     retrieval_scores: List[float]
     model: str = field(default_factory=lambda: OPENAI_MODEL if LLM_PROVIDER == "openai" else ANTHROPIC_MODEL)
@@ -258,9 +246,7 @@ def generate_answer(query: str, results: List[RetrievalResult]) -> GenerationRes
     """
     # Check query cache to avoid duplicate API calls
     chunk_ids = tuple(r.chunk_id for r in results)
-    cache_key = hashlib.sha256(
-        f"{query}|{chunk_ids}|{LLM_PROVIDER}".encode()
-    ).hexdigest()
+    cache_key = hashlib.sha256(f"{query}|{chunk_ids}|{LLM_PROVIDER}".encode()).hexdigest()
 
     if cache_key in _query_cache:
         logger.info("Query cache hit — returning cached response")

@@ -48,9 +48,11 @@ def _build_test_index(retriever, tmpdir, chunks=None):
     if chunks is None:
         chunks = _make_chunks()
 
-    with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-         patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-         patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
+    with (
+        patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+        patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+        patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+    ):
         retriever._index = None
         retriever._metadata = None
         retriever._bm25 = None
@@ -69,10 +71,11 @@ class TestBuildAndSearch:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
@@ -82,12 +85,13 @@ class TestBuildAndSearch:
 
                 # Search in vector mode (no reranking to keep it simple)
                 results = retriever.search(
-                    "multi-factor authentication", top_k=3, mode="vector", rerank=False,
+                    "multi-factor authentication",
+                    top_k=3,
+                    mode="vector",
+                    rerank=False,
                 )
                 assert len(results) > 0
-                assert results[0].chunk_id == "trm_p1_c0", (
-                    "Access control chunk should rank highest for MFA query"
-                )
+                assert results[0].chunk_id == "trm_p1_c0", "Access control chunk should rank highest for MFA query"
 
                 # Verify ranking order
                 scores = [r.relevance_score for r in results]
@@ -100,10 +104,11 @@ class TestBuildAndSearch:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
@@ -122,10 +127,11 @@ class TestBuildAndSearch:
             idx_path = Path(tmpdir) / "test.index"
             meta_path = Path(tmpdir) / "test_meta.json"
 
-            with patch.object(retriever, 'FAISS_INDEX_PATH', idx_path), \
-                 patch.object(retriever, 'METADATA_PATH', meta_path), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", idx_path),
+                patch.object(retriever, "METADATA_PATH", meta_path),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
@@ -146,10 +152,11 @@ class TestBuildAndSearch:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
@@ -171,17 +178,21 @@ class TestSearchModes:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
                 retriever.build_index(chunks)
 
                 results = retriever.search(
-                    "outsourcing notification MAS", top_k=3, mode="bm25", rerank=False,
+                    "outsourcing notification MAS",
+                    top_k=3,
+                    mode="bm25",
+                    rerank=False,
                 )
                 assert len(results) > 0
                 # BM25 should find the outsourcing chunk by keyword match
@@ -195,17 +206,21 @@ class TestSearchModes:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
                 retriever.build_index(chunks)
 
                 results = retriever.search(
-                    "authentication requirements", top_k=3, mode="hybrid", rerank=False,
+                    "authentication requirements",
+                    top_k=3,
+                    mode="hybrid",
+                    rerank=False,
                 )
                 assert len(results) > 0
 
@@ -216,10 +231,11 @@ class TestSearchModes:
         chunks = _make_chunks()
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            with patch.object(retriever, 'FAISS_INDEX_PATH', Path(tmpdir) / "test.index"), \
-                 patch.object(retriever, 'METADATA_PATH', Path(tmpdir) / "test_meta.json"), \
-                 patch.object(retriever, 'INDEX_DIR', Path(tmpdir)):
-
+            with (
+                patch.object(retriever, "FAISS_INDEX_PATH", Path(tmpdir) / "test.index"),
+                patch.object(retriever, "METADATA_PATH", Path(tmpdir) / "test_meta.json"),
+                patch.object(retriever, "INDEX_DIR", Path(tmpdir)),
+            ):
                 retriever._index = None
                 retriever._metadata = None
                 retriever._bm25 = None
@@ -254,6 +270,7 @@ class TestRRF:
     def test_rrf_empty_lists(self):
         """RRF with empty input should return empty."""
         from retriever import _reciprocal_rank_fusion
+
         assert _reciprocal_rank_fusion([]) == []
 
     def test_rrf_single_list(self):
@@ -270,11 +287,13 @@ class TestRRF:
 class TestEdgeCases:
     def test_empty_index_raises(self):
         import retriever
+
         with pytest.raises(ValueError):
             retriever.build_index([])
 
     def test_search_without_load_raises(self):
         import retriever
+
         retriever._index = None
         retriever._metadata = None
         retriever._bm25 = None

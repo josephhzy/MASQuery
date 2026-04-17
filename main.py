@@ -43,6 +43,7 @@ _ingest_lock = threading.Lock()
 
 # -- Pydantic models --
 
+
 class QueryRequest(BaseModel):
     question: str = Field(..., min_length=10, max_length=2000, description="The regulatory question to answer")
     top_k: Optional[int] = Field(default=None, ge=1, le=20, description="Number of chunks to retrieve")
@@ -116,6 +117,7 @@ class ErrorResponse(BaseModel):
 
 
 # -- Application lifecycle --
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -191,6 +193,7 @@ async def http_exception_handler(request: Request, exc: HTTPException) -> JSONRe
 
 # -- Endpoints --
 
+
 @app.post("/query", response_model=QueryResponse, responses={503: {"model": ErrorResponse}})
 def query_endpoint(request: QueryRequest):
     """Ask a question about MAS regulations. Returns answer with source tracing."""
@@ -218,10 +221,7 @@ def query_endpoint(request: QueryRequest):
         env_var = "ANTHROPIC_API_KEY" if LLM_PROVIDER == "anthropic" else "OPENAI_API_KEY"
         raise HTTPException(
             status_code=401,
-            detail=(
-                f"{provider} API key is invalid or has been revoked. "
-                f"Update {env_var} in your .env file."
-            ),
+            detail=(f"{provider} API key is invalid or has been revoked. Update {env_var} in your .env file."),
         )
     except (anthropic.RateLimitError, openai_lib.RateLimitError):
         raise HTTPException(

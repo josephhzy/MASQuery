@@ -19,8 +19,9 @@ logger = logging.getLogger(__name__)
 @dataclass
 class PageData:
     """Extracted data from a single PDF page with full provenance."""
+
     doc_name: str
-    page_number: int          # 1-indexed
+    page_number: int  # 1-indexed
     text: str
     section_headers: List[str] = field(default_factory=list)
     tables: List[str] = field(default_factory=list)
@@ -120,13 +121,15 @@ def extract_pdf(pdf_path: Path) -> List[PageData]:
             headers = _detect_section_headers(page)
             tables = _extract_tables(page)
 
-            pages.append(PageData(
-                doc_name=doc_name,
-                page_number=page_num + 1,  # 1-indexed
-                text=text.strip(),
-                section_headers=headers,
-                tables=tables,
-            ))
+            pages.append(
+                PageData(
+                    doc_name=doc_name,
+                    page_number=page_num + 1,  # 1-indexed
+                    text=text.strip(),
+                    section_headers=headers,
+                    tables=tables,
+                )
+            )
     finally:
         doc.close()
 

@@ -110,8 +110,11 @@ def _evaluate_question(
 
     hits = [
         _chunk_matches_expectation(
-            r.chunk_id, r.doc_name, r.section_header,
-            expected_chunk_ids, expected_section,
+            r.chunk_id,
+            r.doc_name,
+            r.section_header,
+            expected_chunk_ids,
+            expected_section,
         )
         for r in results
     ]
@@ -169,7 +172,9 @@ def run_ablation(qa_pairs: list[dict], top_k: int = 10) -> dict:
     for label, mode, rerank in CONFIGURATIONS:
         logger.info(
             "Evaluating configuration: %s (mode=%s, rerank=%s)",
-            label, mode, rerank,
+            label,
+            mode,
+            rerank,
         )
 
         per_question = []
@@ -227,11 +232,15 @@ def _print_summary(report: dict) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="MASquery retrieval ablation")
     parser.add_argument(
-        "--top-k", type=int, default=10,
+        "--top-k",
+        type=int,
+        default=10,
         help="Retrieval depth per query (default: 10 so both recall@5 and recall@10 are covered)",
     )
     parser.add_argument(
-        "--output", type=str, default=None,
+        "--output",
+        type=str,
+        default=None,
         help="If set, write the full JSON report to this path",
     )
     args = parser.parse_args()

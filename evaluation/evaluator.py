@@ -116,22 +116,27 @@ def evaluate_all(
 
         try:
             result = evaluate_single(
-                question, expected,
-                search_mode=search_mode, rerank=rerank, top_k=top_k,
+                question,
+                expected,
+                search_mode=search_mode,
+                rerank=rerank,
+                top_k=top_k,
             )
             results.append(result)
         except Exception as e:
             logger.error(f"Failed to evaluate question {i}: {e}")
-            results.append({
-                "question": question,
-                "expected_answer": expected,
-                "error": str(e),
-                "metrics": {
-                    "context_relevance": 0.0,
-                    "answer_faithfulness": 0.0,
-                    "answer_correctness": 0.0,
-                },
-            })
+            results.append(
+                {
+                    "question": question,
+                    "expected_answer": expected,
+                    "error": str(e),
+                    "metrics": {
+                        "context_relevance": 0.0,
+                        "answer_faithfulness": 0.0,
+                        "answer_correctness": 0.0,
+                    },
+                }
+            )
 
     # Aggregate
     n = len(results)
@@ -167,6 +172,7 @@ def main():
 
     # Ensure index is loaded
     import retriever
+
     if not retriever.is_index_loaded():
         logger.info("Loading index...")
         retriever.load_index()

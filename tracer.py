@@ -29,10 +29,10 @@ logger = logging.getLogger(__name__)
 #
 # See docs/VERIFICATION.md for accepted formats and failure modes.
 CITATION_PATTERN = re.compile(
-    r'[\[\(]\s*Source\s*:\s*(?P<document>[^,\]\)]+?)\s*'
-    r',\s*(?:Section|Sec\.?|Part)\s*:\s*(?P<section>[^,\]\)]+?)\s*'
-    r'(?:,\s*(?:Pages?|Pg\.?|p\.?)\s*(?::\s*|\s+)(?P<page>[^\]\)]+?))?\s*[\]\)]',
-    re.IGNORECASE
+    r"[\[\(]\s*Source\s*:\s*(?P<document>[^,\]\)]+?)\s*"
+    r",\s*(?:Section|Sec\.?|Part)\s*:\s*(?P<section>[^,\]\)]+?)\s*"
+    r"(?:,\s*(?:Pages?|Pg\.?|p\.?)\s*(?::\s*|\s+)(?P<page>[^\]\)]+?))?\s*[\]\)]",
+    re.IGNORECASE,
 )
 
 
@@ -54,6 +54,7 @@ CITATION_MATCH_THRESHOLD = 3
 @dataclass
 class SourceReference:
     """A verified or unverified source citation from Claude's response."""
+
     document: str
     section: str
     page_numbers: List[int]
@@ -89,11 +90,13 @@ def extract_citations(response_text: str) -> List[dict]:
             continue
         seen.add(key)
 
-        citations.append({
-            "document": doc,
-            "section": section,
-            "pages": pages,
-        })
+        citations.append(
+            {
+                "document": doc,
+                "section": section,
+                "pages": pages,
+            }
+        )
 
     return citations
 
@@ -101,10 +104,10 @@ def extract_citations(response_text: str) -> List[dict]:
 def _parse_pages(page_str: str) -> List[int]:
     """Parse page string into list of integers."""
     pages = []
-    parts = re.split(r'[,;]', page_str)
+    parts = re.split(r"[,;]", page_str)
     for part in parts:
         part = part.strip()
-        range_match = re.match(r'(\d+)\s*-\s*(\d+)', part)
+        range_match = re.match(r"(\d+)\s*-\s*(\d+)", part)
         if range_match:
             start, end = int(range_match.group(1)), int(range_match.group(2))
             pages.extend(range(start, end + 1))
@@ -127,29 +130,33 @@ def verify_citations(
         match = _find_matching_result(citation, provided_results)
 
         if match:
-            references.append(SourceReference(
-                document=citation["document"],
-                section=citation["section"],
-                page_numbers=citation["pages"],
-                chunk_id=match.chunk_id,
-                relevance_score=match.relevance_score,
-                verified=True,
-                text_excerpt=match.text[:200] + "..." if len(match.text) > 200 else match.text,
-            ))
+            references.append(
+                SourceReference(
+                    document=citation["document"],
+                    section=citation["section"],
+                    page_numbers=citation["pages"],
+                    chunk_id=match.chunk_id,
+                    relevance_score=match.relevance_score,
+                    verified=True,
+                    text_excerpt=match.text[:200] + "..." if len(match.text) > 200 else match.text,
+                )
+            )
         else:
             logger.warning(
                 f"Unverified citation: {citation['document']}, "
                 f"Section: {citation['section']}, Page: {citation['pages']}"
             )
-            references.append(SourceReference(
-                document=citation["document"],
-                section=citation["section"],
-                page_numbers=citation["pages"],
-                chunk_id="unverified",
-                relevance_score=0.0,
-                verified=False,
-                text_excerpt="",
-            ))
+            references.append(
+                SourceReference(
+                    document=citation["document"],
+                    section=citation["section"],
+                    page_numbers=citation["pages"],
+                    chunk_id="unverified",
+                    relevance_score=0.0,
+                    verified=False,
+                    text_excerpt="",
+                )
+            )
 
     return references
 
@@ -220,10 +227,7 @@ def trace_response(
     citations = extract_citations(response_text)
 
     if not citations:
-        logger.info(
-            "No inline citations found in response. "
-            "Returning retrieved chunks as unverified sources."
-        )
+        logger.info("No inline citations found in response. Returning retrieved chunks as unverified sources.")
         return [
             SourceReference(
                 document=r.doc_name,

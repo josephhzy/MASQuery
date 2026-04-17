@@ -57,10 +57,13 @@ class TestExtractPdf:
         """extract_pdf should return a list of PageData with correct fields."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf_path = Path(tmpdir) / "test_doc.pdf"
-            _create_test_pdf(pdf_path, [
-                {"text": "Page one content about MAS regulations."},
-                {"text": "Page two content about compliance requirements."},
-            ])
+            _create_test_pdf(
+                pdf_path,
+                [
+                    {"text": "Page one content about MAS regulations."},
+                    {"text": "Page two content about compliance requirements."},
+                ],
+            )
 
             pages = extract_pdf(pdf_path)
 
@@ -111,11 +114,14 @@ class TestExtractPdf:
         """Page numbers in PageData should start at 1, not 0."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf_path = Path(tmpdir) / "numbered.pdf"
-            _create_test_pdf(pdf_path, [
-                {"text": "First page."},
-                {"text": "Second page."},
-                {"text": "Third page."},
-            ])
+            _create_test_pdf(
+                pdf_path,
+                [
+                    {"text": "First page."},
+                    {"text": "Second page."},
+                    {"text": "Third page."},
+                ],
+            )
 
             pages = extract_pdf(pdf_path)
             page_numbers = [p.page_number for p in pages]
@@ -127,12 +133,15 @@ class TestSectionHeaderDetection:
         """Text at a larger font size than the median should be detected as a header."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf_path = Path(tmpdir) / "headers.pdf"
-            _create_test_pdf(pdf_path, [
-                {
-                    "header": "5.2 Access Control Requirements",
-                    "text": "Body text about access control. " * 10,
-                },
-            ])
+            _create_test_pdf(
+                pdf_path,
+                [
+                    {
+                        "header": "5.2 Access Control Requirements",
+                        "text": "Body text about access control. " * 10,
+                    },
+                ],
+            )
 
             pages = extract_pdf(pdf_path)
             assert len(pages) >= 1
@@ -144,9 +153,12 @@ class TestSectionHeaderDetection:
         """When all text is the same size, no headers should be detected."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf_path = Path(tmpdir) / "uniform.pdf"
-            _create_test_pdf(pdf_path, [
-                {"text": "All text at the same font size, no headers here."},
-            ])
+            _create_test_pdf(
+                pdf_path,
+                [
+                    {"text": "All text at the same font size, no headers here."},
+                ],
+            )
 
             pages = extract_pdf(pdf_path)
             assert len(pages) >= 1
@@ -161,9 +173,12 @@ class TestTableExtraction:
         """Table extraction should not raise even on pages without tables."""
         with tempfile.TemporaryDirectory() as tmpdir:
             pdf_path = Path(tmpdir) / "no_table.pdf"
-            _create_test_pdf(pdf_path, [
-                {"text": "Just plain text, no tables here."},
-            ])
+            _create_test_pdf(
+                pdf_path,
+                [
+                    {"text": "Just plain text, no tables here."},
+                ],
+            )
 
             pages = extract_pdf(pdf_path)
             assert len(pages) >= 1
@@ -177,12 +192,18 @@ class TestIngestDirectory:
         with tempfile.TemporaryDirectory() as tmpdir:
             dir_path = Path(tmpdir)
 
-            _create_test_pdf(dir_path / "doc_a.pdf", [
-                {"text": "Document A content."},
-            ])
-            _create_test_pdf(dir_path / "doc_b.pdf", [
-                {"text": "Document B content."},
-            ])
+            _create_test_pdf(
+                dir_path / "doc_a.pdf",
+                [
+                    {"text": "Document A content."},
+                ],
+            )
+            _create_test_pdf(
+                dir_path / "doc_b.pdf",
+                [
+                    {"text": "Document B content."},
+                ],
+            )
 
             pages = ingest_directory(dir_path)
             doc_names = {p.doc_name for p in pages}
@@ -209,9 +230,12 @@ class TestIngestDirectory:
             (dir_path / "readme.txt").write_text("This is not a PDF.")
 
             # Create one real PDF
-            _create_test_pdf(dir_path / "real.pdf", [
-                {"text": "Real PDF content."},
-            ])
+            _create_test_pdf(
+                dir_path / "real.pdf",
+                [
+                    {"text": "Real PDF content."},
+                ],
+            )
 
             pages = ingest_directory(dir_path)
             assert len(pages) >= 1

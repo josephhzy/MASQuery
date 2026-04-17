@@ -33,12 +33,13 @@ def _get_model() -> SentenceTransformer:
 
 def _tokenize(text: str) -> set[str]:
     """Simple word-level tokenizer for overlap metrics."""
-    return set(re.findall(r'\w+', text.lower()))
+    return set(re.findall(r"\w+", text.lower()))
 
 
 # ---------------------------------------------------------------------------
 # Metric 1: Context Relevance
 # ---------------------------------------------------------------------------
+
 
 def context_relevance(question: str, contexts: List[str]) -> float:
     """
@@ -71,6 +72,7 @@ def context_relevance(question: str, contexts: List[str]) -> float:
 # Metric 2: Answer Faithfulness
 # ---------------------------------------------------------------------------
 
+
 def answer_faithfulness(answer: str, contexts: List[str]) -> float:
     """
     Measure whether the answer is grounded in the provided contexts.
@@ -92,7 +94,7 @@ def answer_faithfulness(answer: str, contexts: List[str]) -> float:
         return 0.0
 
     # Split answer into sentences
-    sentences = re.split(r'(?<=[.!?])\s+', answer.strip())
+    sentences = re.split(r"(?<=[.!?])\s+", answer.strip())
     sentences = [s for s in sentences if len(s.split()) >= 3]  # skip tiny fragments
     if not sentences:
         return 0.0
@@ -125,6 +127,7 @@ def answer_faithfulness(answer: str, contexts: List[str]) -> float:
 # ---------------------------------------------------------------------------
 # Metric 3: Answer Correctness
 # ---------------------------------------------------------------------------
+
 
 def answer_correctness(answer: str, expected_answer: str) -> float:
     """

@@ -49,6 +49,7 @@ _cross_encoder_lock = threading.Lock()
 @dataclass
 class RetrievalResult:
     """A retrieved chunk with its similarity score and rank."""
+
     chunk_id: str
     text: str
     doc_name: str
@@ -60,7 +61,7 @@ class RetrievalResult:
 
 def _tokenize_for_bm25(text: str) -> List[str]:
     """Simple whitespace + punctuation tokenizer for BM25."""
-    return re.findall(r'\w+', text.lower())
+    return re.findall(r"\w+", text.lower())
 
 
 def _build_bm25_index(metadata: List[dict]) -> BM25Okapi:
@@ -77,6 +78,7 @@ def _get_cross_encoder():
     with _cross_encoder_lock:
         if _cross_encoder is None:
             from sentence_transformers import CrossEncoder
+
             logger.info(f"Loading cross-encoder model: {RERANK_MODEL}")
             _cross_encoder = CrossEncoder(RERANK_MODEL)
             logger.info("Cross-encoder model loaded")
@@ -173,13 +175,12 @@ def load_index() -> Tuple[faiss.Index, List[dict]]:
             logger.warning(
                 "Index version mismatch: stored=%s, expected=%s. "
                 "Consider re-running POST /ingest to rebuild with current settings.",
-                stored_version, INDEX_VERSION,
+                stored_version,
+                INDEX_VERSION,
             )
         _metadata = raw["chunks"]
     else:
-        logger.warning(
-            "Loading legacy (unversioned) metadata. Re-run POST /ingest to upgrade."
-        )
+        logger.warning("Loading legacy (unversioned) metadata. Re-run POST /ingest to upgrade.")
         _metadata = raw
 
     if len(_metadata) != _index.ntotal:
@@ -296,15 +297,17 @@ def _rerank(query: str, results: List[RetrievalResult], top_k: int) -> List[Retr
     # Truncate and reassign ranks and scores
     reranked = []
     for new_rank, (result, ce_score) in enumerate(scored[:top_k], start=1):
-        reranked.append(RetrievalResult(
-            chunk_id=result.chunk_id,
-            text=result.text,
-            doc_name=result.doc_name,
-            page_numbers=result.page_numbers,
-            section_header=result.section_header,
-            relevance_score=float(ce_score),
-            rank=new_rank,
-        ))
+        reranked.append(
+            RetrievalResult(
+                chunk_id=result.chunk_id,
+                text=result.text,
+                doc_name=result.doc_name,
+                page_numbers=result.page_numbers,
+                section_header=result.section_header,
+                relevance_score=float(ce_score),
+                rank=new_rank,
+            )
+        )
 
     return reranked
 
@@ -356,7 +359,7 @@ def search(
 
     # Convert to RetrievalResult objects
     results = []
-    for rank, (idx, score) in enumerate(ranked[:k * 2 if do_rerank else k], start=1):
+    for rank, (idx, score) in enumerate(ranked[: k * 2 if do_rerank else k], start=1):
         meta = _metadata[idx]
 
         # IMPORTANT — Layer-1 pre-gate applies ONLY to dense-only, no-rerank mode.
@@ -386,15 +389,17 @@ def search(
             if score < SIMILARITY_THRESHOLD:
                 continue
 
-        results.append(RetrievalResult(
-            chunk_id=meta["chunk_id"],
-            text=meta["text"],
-            doc_name=meta["doc_name"],
-            page_numbers=meta["page_numbers"],
-            section_header=meta["section_header"],
-            relevance_score=float(score),
-            rank=rank,
-        ))
+        results.append(
+            RetrievalResult(
+                chunk_id=meta["chunk_id"],
+                text=meta["text"],
+                doc_name=meta["doc_name"],
+                page_numbers=meta["page_numbers"],
+                section_header=meta["section_header"],
+                relevance_score=float(score),
+                rank=rank,
+            )
+        )
 
     # Optional cross-encoder reranking
     if do_rerank and results:

@@ -28,12 +28,13 @@ _encoder = tiktoken.get_encoding("cl100k_base")
 @dataclass
 class Chunk:
     """A text chunk with full provenance metadata."""
+
     chunk_id: str
     text: str
     doc_name: str
     page_numbers: List[int]
     section_header: str
-    chunk_index: int        # position within document
+    chunk_index: int  # position within document
     token_count: int
 
 
@@ -44,7 +45,7 @@ def count_tokens(text: str) -> int:
 
 def _sanitize_for_id(text: str) -> str:
     """Create a filesystem-safe string for chunk IDs."""
-    return re.sub(r'[^a-zA-Z0-9_]', '_', text)[:50]
+    return re.sub(r"[^a-zA-Z0-9_]", "_", text)[:50]
 
 
 def _build_sections(pages: List[PageData]) -> List[dict]:
@@ -75,20 +76,20 @@ def _build_sections(pages: List[PageData]) -> List[dict]:
         # boundary and the retriever can match table-specific queries.
         page_content = page.text
         if page.tables:
-            table_block = "\n\n".join(
-                f"[Table start]\n{t}\n[Table end]" for t in page.tables
-            )
+            table_block = "\n\n".join(f"[Table start]\n{t}\n[Table end]" for t in page.tables)
             page_content = f"{page_content}\n\n{table_block}"
 
         if page.section_headers:
             # New section header — flush the current section first.
             if current_text_parts:
-                sections.append({
-                    "header": current_header,
-                    "text": "\n\n".join(current_text_parts),
-                    "pages": list(current_pages),
-                    "page_offsets": list(current_page_offsets),
-                })
+                sections.append(
+                    {
+                        "header": current_header,
+                        "text": "\n\n".join(current_text_parts),
+                        "pages": list(current_pages),
+                        "page_offsets": list(current_page_offsets),
+                    }
+                )
             current_header = page.section_headers[-1]  # use most specific header
             current_text_parts = [page_content]
             current_pages = [page.page_number]
@@ -103,12 +104,14 @@ def _build_sections(pages: List[PageData]) -> List[dict]:
 
     # Flush last section
     if current_text_parts:
-        sections.append({
-            "header": current_header,
-            "text": "\n\n".join(current_text_parts),
-            "pages": list(current_pages),
-            "page_offsets": list(current_page_offsets),
-        })
+        sections.append(
+            {
+                "header": current_header,
+                "text": "\n\n".join(current_text_parts),
+                "pages": list(current_pages),
+                "page_offsets": list(current_page_offsets),
+            }
+        )
 
     return sections
 
@@ -147,8 +150,8 @@ def _get_pages_for_chunk(
         # differently from the section text. Fall back to all section pages.
         # This over-reports page span but never drops a page.
         logger.warning(
-            "Page anchor not found in section text; falling back to full "
-            "section page range. Chunk starts with: %r", anchor[:40]
+            "Page anchor not found in section text; falling back to full section page range. Chunk starts with: %r",
+            anchor[:40],
         )
         return [po[1] for po in page_offsets]
 
@@ -156,9 +159,7 @@ def _get_pages_for_chunk(
 
     pages = set()
     for i, (offset, page_num) in enumerate(page_offsets):
-        next_offset = (
-            page_offsets[i + 1][0] if i + 1 < len(page_offsets) else len(section_text)
-        )
+        next_offset = page_offsets[i + 1][0] if i + 1 < len(page_offsets) else len(section_text)
         # Does this page's character range overlap with [start, end)?
         if offset < end and next_offset > start:
             pages.add(page_num)
@@ -226,15 +227,17 @@ def chunk_document(pages: List[PageData]) -> List[Chunk]:
             safe_name = _sanitize_for_id(doc_name)
             chunk_id = f"{safe_name}_p{chunk_pages[0]}_c{chunk_idx}"
 
-            chunks.append(Chunk(
-                chunk_id=chunk_id,
-                text=prefixed_text,
-                doc_name=doc_name,
-                page_numbers=chunk_pages,
-                section_header=header,
-                chunk_index=chunk_idx,
-                token_count=token_count,
-            ))
+            chunks.append(
+                Chunk(
+                    chunk_id=chunk_id,
+                    text=prefixed_text,
+                    doc_name=doc_name,
+                    page_numbers=chunk_pages,
+                    section_header=header,
+                    chunk_index=chunk_idx,
+                    token_count=token_count,
+                )
+            )
             chunk_idx += 1
 
     logger.info(f"Chunked {doc_name}: {len(chunks)} chunks from {len(sections)} sections")

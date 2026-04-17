@@ -1,6 +1,5 @@
 """Tests for the source tracing module."""
 
-
 from retriever import RetrievalResult
 from tracer import (
     CITATION_MATCH_THRESHOLD,
@@ -132,9 +131,9 @@ class TestCitationMatchThreshold:
             rank=1,
         )
         citation = {
-            "document": "TRM Guidelines",        # +2 substring containment
-            "section": "qqqq unusedword",        # +0 (no overlap)
-            "pages": [12],                        # +1 page intersection
+            "document": "TRM Guidelines",  # +2 substring containment
+            "section": "qqqq unusedword",  # +0 (no overlap)
+            "pages": [12],  # +1 page intersection
         }
         match = _find_matching_result(citation, [result])
         assert match is not None
@@ -146,15 +145,15 @@ class TestCitationMatchThreshold:
             chunk_id="trm_p12_c0",
             text="body",
             doc_name="TRM Guidelines",
-            page_numbers=[99],                    # no page intersection
+            page_numbers=[99],  # no page intersection
             section_header="Totally Unrelated Heading XYZ",
             relevance_score=0.85,
             rank=1,
         )
         citation = {
-            "document": "TRM Guidelines",        # +2
-            "section": "qqqq unusedword",        # +0
-            "pages": [12],                        # +0 (disjoint)
+            "document": "TRM Guidelines",  # +2
+            "section": "qqqq unusedword",  # +0
+            "pages": [12],  # +0 (disjoint)
         }
         match = _find_matching_result(citation, [result])
         assert match is None

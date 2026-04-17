@@ -18,17 +18,17 @@ INDEX_DIR = DATA_DIR / "index"
 PROMPTS_DIR = PROJECT_ROOT / "prompts"
 
 # ── Chunking ───────────────────────────────────────────────────────────
-CHUNK_SIZE = 600          # target tokens (middle of 500-800 range)
-CHUNK_OVERLAP = 100       # token overlap between chunks
-CHUNK_MIN_SIZE = 50       # discard chunks smaller than this (tokens)
+CHUNK_SIZE = 600  # target tokens (middle of 500-800 range)
+CHUNK_OVERLAP = 100  # token overlap between chunks
+CHUNK_MIN_SIZE = 50  # discard chunks smaller than this (tokens)
 
 # Separators tuned for regulatory documents (priority order)
 CHUNK_SEPARATORS = [
-    "\n\n",               # paragraph breaks (strongest boundary)
-    "\n",                 # line breaks
-    ". ",                 # sentence boundaries
-    "; ",                 # clause boundaries
-    ", ",                 # last resort
+    "\n\n",  # paragraph breaks (strongest boundary)
+    "\n",  # line breaks
+    ". ",  # sentence boundaries
+    "; ",  # clause boundaries
+    ", ",  # last resort
 ]
 
 # ── Embeddings ─────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ EMBEDDING_DIMENSION = 384
 
 # ── Retrieval ──────────────────────────────────────────────────────────
 TOP_K = 5
-SIMILARITY_THRESHOLD = 0.3   # minimum cosine similarity to include
+SIMILARITY_THRESHOLD = 0.3  # minimum cosine similarity to include
 
 # ── Hybrid search ─────────────────────────────────────────────────────
 # "vector" (FAISS only, current default — dense + rerank won the ablation,
@@ -45,9 +45,7 @@ SIMILARITY_THRESHOLD = 0.3   # minimum cosine similarity to include
 # "bm25" (BM25 only).
 SEARCH_MODE = os.getenv("SEARCH_MODE", "vector").lower()
 if SEARCH_MODE not in ("hybrid", "vector", "bm25"):
-    raise ValueError(
-        f"Invalid SEARCH_MODE={SEARCH_MODE!r}. Must be 'hybrid', 'vector', or 'bm25'."
-    )
+    raise ValueError(f"Invalid SEARCH_MODE={SEARCH_MODE!r}. Must be 'hybrid', 'vector', or 'bm25'.")
 RRF_K = 60  # Reciprocal Rank Fusion constant (standard default)
 BM25_TOP_K_MULTIPLIER = 3  # fetch more from BM25 before fusing (it's cheap)
 
@@ -64,9 +62,7 @@ CONFIDENCE_MEDIUM_THRESHOLD = 0.45
 # Default: openai + gpt-5-nano. Set LLM_PROVIDER=anthropic in .env to swap.
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()  # "anthropic" | "openai"
 if LLM_PROVIDER not in ("anthropic", "openai"):
-    raise ValueError(
-        f"Invalid LLM_PROVIDER={LLM_PROVIDER!r}. Must be 'anthropic' or 'openai'."
-    )
+    raise ValueError(f"Invalid LLM_PROVIDER={LLM_PROVIDER!r}. Must be 'anthropic' or 'openai'.")
 
 # ── Generation (Anthropic Claude) ──────────────────────────────────────
 # Key is loaded here but validated lazily in generator._call_claude() so that
@@ -83,12 +79,12 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5-nano")
 
 MAX_TOKENS = 1024
-TEMPERATURE = 0.0         # deterministic for factual Q&A
+TEMPERATURE = 0.0  # deterministic for factual Q&A
 
 # ── API resilience ─────────────────────────────────────────────────────
-API_TIMEOUT = 30          # seconds
+API_TIMEOUT = 30  # seconds
 API_MAX_RETRIES = 3
-API_RETRY_WAIT = 1        # seconds (exponential backoff base)
+API_RETRY_WAIT = 1  # seconds (exponential backoff base)
 
 # ── Index file paths ───────────────────────────────────────────────────
 FAISS_INDEX_PATH = INDEX_DIR / "mas_regulations.index"
