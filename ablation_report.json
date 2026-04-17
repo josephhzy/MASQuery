@@ -1,0 +1,708 @@
+{
+  "top_k": 10,
+  "n_qa": 13,
+  "configurations": {
+    "dense": {
+      "mode": "vector",
+      "rerank": false,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.7692,
+        "recall_at_10": 0.7692,
+        "mrr_at_10": 0.5513,
+        "precision_at_1": 0.3846
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        }
+      ]
+    },
+    "dense+rerank": {
+      "mode": "vector",
+      "rerank": true,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.7692,
+        "recall_at_10": 0.7692,
+        "mrr_at_10": 0.6179,
+        "precision_at_1": 0.5385
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 5,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        }
+      ]
+    },
+    "bm25": {
+      "mode": "bm25",
+      "rerank": false,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.6923,
+        "recall_at_10": 0.6923,
+        "mrr_at_10": 0.4167,
+        "precision_at_1": 0.3077
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 4,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 4,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 4,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        }
+      ]
+    },
+    "bm25+rerank": {
+      "mode": "bm25",
+      "rerank": true,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.6923,
+        "recall_at_10": 0.6923,
+        "mrr_at_10": 0.5538,
+        "precision_at_1": 0.4615
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 5,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        }
+      ]
+    },
+    "hybrid": {
+      "mode": "hybrid",
+      "rerank": false,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.7692,
+        "recall_at_10": 0.7692,
+        "mrr_at_10": 0.541,
+        "precision_at_1": 0.3846
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": 5,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        }
+      ]
+    },
+    "hybrid+rerank": {
+      "mode": "hybrid",
+      "rerank": true,
+      "aggregate": {
+        "n": 13,
+        "recall_at_5": 0.6923,
+        "recall_at_10": 0.7692,
+        "mrr_at_10": 0.5726,
+        "precision_at_1": 0.4615
+      },
+      "per_question": [
+        {
+          "question": "What are the access control requirements under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the outsourcing notification requirements for banks?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What must a financial institution include in its business continuity plan?",
+          "first_hit_rank": 3,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the incident reporting requirements under TRM?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the data protection requirements for financial institutions?",
+          "first_hit_rank": 9,
+          "hit_at_5": false,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the due diligence requirements for material outsourcing?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the liability limits for unauthorised e-payment transactions?",
+          "first_hit_rank": null,
+          "hit_at_5": false,
+          "hit_at_10": false,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for IT audit under the TRM Guidelines?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the cloud computing risk management requirements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the fair dealing outcome requirements for financial institutions?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the recovery time objectives under the BCM Guidelines?",
+          "first_hit_rank": 2,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": false,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for cyber security risk management?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        },
+        {
+          "question": "What are the requirements for monitoring outsourced arrangements?",
+          "first_hit_rank": 1,
+          "hit_at_5": true,
+          "hit_at_10": true,
+          "hit_at_1": true,
+          "num_results": 10
+        }
+      ]
+    }
+  }
+}

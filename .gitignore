@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+.streamlit/secrets.toml
+
+# Data — index is auto-built, but PDFs are included for deployment
+data/index/
+data/processed/
+*.faiss
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & tasks
+*.log
+tasks/
+
+# Test cache
+.pytest_cache/
+.ruff_cache/
+
+# Private notes
+*.private.md
+.claude/
+
+# Generated reports (regenerate via `python -m evaluation.evaluator`)
+eval_report.json

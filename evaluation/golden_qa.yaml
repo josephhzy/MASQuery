@@ -1,0 +1,231 @@
+# Golden QA pairs for MAS RegQ&A evaluation.
+# Each entry has a question, expected answer, and source section for traceability.
+# These cover the five MAS documents in the corpus: TRM Guidelines, BCM Guidelines,
+# Outsourcing Guidelines, Fair Dealing Guidelines, and E-Payments Guidelines.
+
+- question: "What are the access control requirements under the TRM Guidelines?"
+  expected_answer: >
+    Financial institutions should implement strong access controls including
+    multi-factor authentication for privileged accounts, role-based access control,
+    regular access reviews, and timely removal of access rights when staff change
+    roles or leave the organisation.
+  source_section: "TRM Guidelines - User Access Management"
+
+- question: "What are the outsourcing notification requirements for banks?"
+  expected_answer: >
+    Banks must notify MAS of material outsourcing arrangements. The notification
+    should include details of the outsourcing arrangement, risk assessment,
+    and the service provider. Prior notification is required before entering
+    into material outsourcing arrangements.
+  source_section: "Outsourcing Guidelines - Notification Requirements"
+
+- question: "What must a financial institution include in its business continuity plan?"
+  expected_answer: >
+    A business continuity plan must include identification of critical business
+    functions, recovery time objectives, recovery point objectives, communication
+    plans, alternate site arrangements, regular testing and exercises, and
+    roles and responsibilities of key personnel during a disruption.
+  source_section: "BCM Guidelines - Business Continuity Planning"
+
+- question: "What are the incident reporting requirements under TRM?"
+  expected_answer: >
+    Financial institutions must report relevant incidents to MAS including
+    technology-related incidents that have a significant impact on operations
+    or affect a large number of customers. Reports should include the nature
+    of the incident, systems affected, impact assessment, and remedial actions.
+  source_section: "TRM Guidelines - Incident Management"
+
+- question: "What are the data protection requirements for financial institutions?"
+  expected_answer: >
+    Financial institutions must protect sensitive data through encryption at rest
+    and in transit, access controls, data classification, secure disposal of data,
+    and monitoring of data access and transfers. Data loss prevention measures
+    should be implemented.
+  source_section: "TRM Guidelines - Data Protection"
+
+- question: "What are the due diligence requirements for material outsourcing?"
+  expected_answer: >
+    Before entering into a material outsourcing arrangement, the financial
+    institution must perform due diligence on the service provider, including
+    assessing the provider's financial viability, technical capability,
+    security controls, business continuity arrangements, and compliance
+    with relevant regulations.
+  source_section: "Outsourcing Guidelines - Due Diligence"
+
+- question: "What are the liability limits for unauthorised e-payment transactions?"
+  expected_answer: >
+    Under the E-Payments Guidelines, a user's liability for unauthorised
+    transactions is limited. If the user did not act fraudulently or with gross
+    negligence, the liability for unauthorised transactions is capped.
+    The responsible financial institution bears the loss for unauthorised
+    transactions where the user has taken reasonable steps to protect their
+    account credentials.
+  source_section: "E-Payments Guidelines - Liability Framework"
+
+- question: "What are the requirements for IT audit under the TRM Guidelines?"
+  expected_answer: >
+    Financial institutions should establish an independent IT audit function
+    that regularly reviews the adequacy and effectiveness of IT controls,
+    security practices, and risk management processes. Audit findings should
+    be reported to senior management and the board.
+  source_section: "TRM Guidelines - IT Audit"
+
+- question: "What are the cloud computing risk management requirements?"
+  expected_answer: >
+    Financial institutions using cloud services should assess the risks
+    specific to cloud deployment models, ensure adequate controls for data
+    protection and access management, evaluate the cloud service provider's
+    security certifications, and maintain the ability to migrate to alternative
+    providers if needed.
+  source_section: "TRM Guidelines - Cloud Computing"
+
+- question: "What are the fair dealing outcome requirements for financial institutions?"
+  expected_answer: >
+    Financial institutions must deliver fair dealing outcomes to customers,
+    including offering products and services that are suitable and appropriate,
+    providing clear and adequate disclosures, giving quality advice that takes
+    into account the customer's needs, and handling complaints in a fair
+    and prompt manner.
+  source_section: "Fair Dealing Guidelines - Fair Dealing Outcomes"
+
+- question: "What are the recovery time objectives under the BCM Guidelines?"
+  expected_answer: >
+    Financial institutions should establish recovery time objectives for
+    critical business functions. These should be commensurate with the
+    potential impact of a disruption and take into account dependencies
+    on other systems and service providers.
+  source_section: "BCM Guidelines - Recovery Objectives"
+
+- question: "What are the requirements for cyber security risk management?"
+  expected_answer: >
+    Financial institutions should implement a comprehensive cyber security
+    framework including threat monitoring, vulnerability management,
+    penetration testing, security operations centre capabilities,
+    cyber incident response plans, and regular cyber security awareness
+    training for staff.
+  source_section: "TRM Guidelines - Cyber Security"
+
+- question: "What are the requirements for monitoring outsourced arrangements?"
+  expected_answer: >
+    Financial institutions must maintain ongoing monitoring of outsourced
+    arrangements including regular performance reviews, audit rights,
+    compliance checks, and risk assessments. Service level agreements
+    should define measurable performance standards.
+  source_section: "Outsourcing Guidelines - Ongoing Monitoring"
+
+# ─────────────────────────────────────────────────────────────────────
+# Adversarial pairs.
+# These test refusal behaviour and robustness. The pipeline should refuse
+# rather than hallucinate when a question falls outside the corpus or
+# references a fabricated regulation. Schema follows eval/EXPANSION_PLAN.md.
+# ─────────────────────────────────────────────────────────────────────
+
+# --- Out-of-corpus (4 pairs): real regulation, wrong regulator. ---
+- question: "What are the RBI's guidelines on crypto custody?"
+  expected_answer: >
+    The MAS corpus indexed here does not cover Reserve Bank of India guidance.
+    The expected behaviour is to refuse rather than guess at RBI policy from
+    MAS documents.
+  source_section: "Out-of-corpus (RBI, not MAS)"
+  category: adversarial_out_of_corpus
+  should_refuse: true
+  notes: "Tests that the system doesn't project MAS framing onto a foreign regulator."
+
+- question: "What does the Federal Reserve require for bank stress testing?"
+  expected_answer: >
+    Federal Reserve stress-testing rules (CCAR / DFAST) are not part of the
+    MAS corpus. The system should refuse and state that the question is
+    outside the indexed Singapore regulations.
+  source_section: "Out-of-corpus (Federal Reserve, not MAS)"
+  category: adversarial_out_of_corpus
+  should_refuse: true
+  notes: "Tests refusal on a US prudential-supervision question."
+
+- question: "What are the SEC's Regulation Best Interest requirements for broker-dealers?"
+  expected_answer: >
+    SEC Regulation Best Interest is US securities regulation and is not in
+    the MAS corpus. The expected behaviour is to refuse with an explanation
+    that the indexed documents only cover MAS guidance.
+  source_section: "Out-of-corpus (US SEC, not MAS)"
+  category: adversarial_out_of_corpus
+  should_refuse: true
+  notes: "Plausible-sounding conduct question but from the wrong jurisdiction."
+
+- question: "How does the HKMA handle operational risk for authorised institutions?"
+  expected_answer: >
+    HKMA (Hong Kong Monetary Authority) operational-risk guidance is not in
+    the indexed MAS corpus. The system should refuse rather than extrapolate
+    from the MAS TRM Guidelines to HKMA practice.
+  source_section: "Out-of-corpus (HKMA, not MAS)"
+  category: adversarial_out_of_corpus
+  should_refuse: true
+  notes: "Tests refusal on a neighbouring-regulator question where a naive retriever may match on 'operational risk' keywords."
+
+# --- Fabricated terms (3 pairs): plausible MAS naming, nothing to cite. ---
+- question: "What does MAS Notice 999 say about embedded finance?"
+  expected_answer: >
+    No such notice exists in the indexed corpus (and no such MAS Notice 999
+    is known at the time of authoring). The system should refuse rather than
+    synthesise requirements for a fabricated notice.
+  source_section: "Fabricated MAS notice"
+  category: adversarial_fabricated
+  should_refuse: true
+  notes: "Tests that fabricated notice numbers are not dressed up with invented requirements."
+
+- question: "Summarise MAS Guideline G-7890 on AI governance for financial institutions."
+  expected_answer: >
+    There is no MAS Guideline G-7890 in the indexed corpus. The expected
+    behaviour is to refuse rather than produce a confident-sounding summary
+    of a guideline that does not exist.
+  source_section: "Fabricated MAS guideline"
+  category: adversarial_fabricated
+  should_refuse: true
+  notes: "The 'AI governance' topic is a plausible-sounding lure; refusal is correct."
+
+- question: "What are the requirements in MAS Circular TRM-2099?"
+  expected_answer: >
+    No such circular is indexed. The system should refuse and note that the
+    reference is not present in the corpus, rather than merging unrelated
+    TRM chunks into a fabricated response.
+  source_section: "Fabricated MAS circular"
+  category: adversarial_fabricated
+  should_refuse: true
+  notes: "TRM-2099 is a nonsense identifier; the retriever may surface real TRM chunks but generation should still refuse to cite a non-existent circular."
+
+# --- Near-miss (3 pairs): retrieval likely fires, answer shouldn't be confident. ---
+- question: "What is the minimum capital requirement for a digital wholesale bank branch in Singapore?"
+  expected_answer: >
+    Minimum capital requirements for digital wholesale banks sit in MAS
+    banking-act subsidiary legislation and licensing conditions, not in the
+    indexed TRM / BCM / Outsourcing / Fair Dealing / E-Payments set. Retrieval
+    may surface tangentially-related chunks; the correct behaviour is to
+    refuse or decline to give a specific number.
+  source_section: "Near-miss (capital requirements not in indexed docs)"
+  category: adversarial_near_miss
+  should_refuse: true
+  notes: "Retrievers often match on 'Singapore' + 'bank'. Tests that generation does not invent a capital figure from context that doesn't contain one."
+
+- question: "What is the difference between a material outsourcing arrangement and a material adverse change clause under MAS guidance?"
+  expected_answer: >
+    The Outsourcing Guidelines define 'material outsourcing arrangement'.
+    'Material adverse change' is a contract term from banking/loan
+    documentation, not a MAS-defined concept in the indexed guidelines.
+    The system should answer only the material-outsourcing half and either
+    refuse the second half or flag the conflation, not merge the two into
+    a single confident definition.
+  source_section: "Near-miss (conflated defined terms)"
+  category: adversarial_near_miss
+  should_refuse: true
+  notes: "Tests resistance to conflation — near-identical word stems, different domains."
+
+- question: "According to the TRM Guidelines, what is the maximum allowable downtime in hours for a critical payment system?"
+  expected_answer: >
+    The TRM Guidelines set expectations on recovery time objectives and
+    system resilience but the indexed chunks do not prescribe a single
+    numeric hour cap applicable to all critical payment systems. The system
+    should refuse to give a specific number rather than synthesise one from
+    adjacent text.
+  source_section: "Near-miss (specific number not in corpus)"
+  category: adversarial_near_miss
+  should_refuse: true
+  notes: "Retrieval will return TRM chunks about recovery / availability. Tests that generation does not fabricate a specific hour figure."

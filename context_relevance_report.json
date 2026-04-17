@@ -1,0 +1,73 @@
+{
+  "mean_context_relevance": 0.5405,
+  "min": 0.4616,
+  "max": 0.6984,
+  "n": 13,
+  "per_question": [
+    {
+      "question": "What are the access control requirements under the TRM Guidelines?",
+      "context_relevance": 0.4616,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the outsourcing notification requirements for banks?",
+      "context_relevance": 0.6229,
+      "num_contexts": 5
+    },
+    {
+      "question": "What must a financial institution include in its business continuity plan?",
+      "context_relevance": 0.5598,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the incident reporting requirements under TRM?",
+      "context_relevance": 0.5047,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the data protection requirements for financial institutions?",
+      "context_relevance": 0.4835,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the due diligence requirements for material outsourcing?",
+      "context_relevance": 0.5535,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the liability limits for unauthorised e-payment transactions?",
+      "context_relevance": 0.5807,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the requirements for IT audit under the TRM Guidelines?",
+      "context_relevance": 0.5039,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the cloud computing risk management requirements?",
+      "context_relevance": 0.4763,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the fair dealing outcome requirements for financial instituti",
+      "context_relevance": 0.6984,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the recovery time objectives under the BCM Guidelines?",
+      "context_relevance": 0.4759,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the requirements for cyber security risk management?",
+      "context_relevance": 0.5203,
+      "num_contexts": 5
+    },
+    {
+      "question": "What are the requirements for monitoring outsourced arrangements?",
+      "context_relevance": 0.5851,
+      "num_contexts": 5
+    }
+  ]
+}

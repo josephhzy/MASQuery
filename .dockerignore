@@ -1,0 +1,40 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data (mounted as volume instead)
+data/index/
+data/raw/*.pdf
+
+# Test artifacts
+.pytest_cache/
+tests/
+
+# Tooling
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Task management
+tasks/

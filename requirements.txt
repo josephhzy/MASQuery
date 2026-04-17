@@ -1,0 +1,46 @@
+# PDF extraction
+PyMuPDF>=1.24.0
+
+# Chunking
+langchain-text-splitters>=0.2.0
+tiktoken>=0.7.0
+
+# Embeddings & vector store
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.2.0
+sentence-transformers>=3.0.0
+transformers>=4.40.0
+faiss-cpu>=1.7.0
+numpy<2
+
+# Hybrid search (BM25)
+rank-bm25>=0.2.2
+
+# LLM
+anthropic>=0.40.0
+openai>=1.0.0
+
+# API
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+pydantic>=2.0.0
+
+# Frontend
+streamlit>=1.35.0
+Markdown>=3.4.0
+requests>=2.31.0
+
+# Utilities
+python-dotenv>=1.0.0
+tenacity>=8.0.0
+httpx>=0.27.0
+
+# Evaluation
+PyYAML>=6.0
+
+# Testing
+pytest>=8.0.0
+
+# Linting (dev)
+ruff>=0.4.0
