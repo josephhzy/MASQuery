@@ -32,7 +32,8 @@ USER appuser
 # Pre-download the embedding AND reranker models at build time so startup is
 # fast and the default (reranked) path works in no-egress runtimes. This avoids
 # a ~100MB + ~80MB download on first request.
-RUN python -c "from sentence_transformers import SentenceTransformer, CrossEncoder; SentenceTransformer('all-MiniLM-L6-v2'); CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')"
+RUN python -c "from sentence_transformers import SentenceTransformer, CrossEncoder; SentenceTransformer('all-MiniLM-L6-v2'); CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')" \
+    || echo "WARN: model pre-download skipped (no network / rate-limited at build time); models load on first request instead"
 
 EXPOSE 8000
 
