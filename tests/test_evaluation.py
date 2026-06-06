@@ -70,8 +70,7 @@ class TestAnswerFaithfulness:
             "Risk Management Guidelines."
         ]
         faithful_answer = (
-            "Financial institutions must notify MAS within 1 business day of "
-            "discovering a major IT security incident."
+            "Financial institutions must notify MAS within 1 business day of discovering a major IT security incident."
         )
         hallucinated_answer = (
             "Financial institutions must notify MAS within 14 days of "
@@ -134,13 +133,9 @@ class TestGoldenQALoading:
             assert len(qa["expected_answer"]) > 10
 
         adversarial = [qa for qa in qa_pairs if qa.get("should_refuse")]
-        assert len(adversarial) == 10, (
-            f"Expected 10 adversarial pairs, got {len(adversarial)}"
-        )
+        assert len(adversarial) == 10, f"Expected 10 adversarial pairs, got {len(adversarial)}"
         for qa in adversarial:
-            assert qa.get("category"), (
-                f"Adversarial pair missing non-empty 'category': {qa['question'][:60]}"
-            )
+            assert qa.get("category"), f"Adversarial pair missing non-empty 'category': {qa['question'][:60]}"
 
 
 class TestEvaluateRefusal:

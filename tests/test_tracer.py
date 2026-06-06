@@ -186,9 +186,9 @@ class TestVerifyCitations:
         # §Known failure modes §2 and §The upgrade path.
         citations = [
             {
-                "document": "TRM Guidelines",       # matches chunk "TRM Guidelines" (+2 substring)
-                "section": "5.2 Access Control",    # matches chunk section_header (+2 substring)
-                "pages": [12],                      # matches chunk page_numbers=[12,13] (+1)
+                "document": "TRM Guidelines",  # matches chunk "TRM Guidelines" (+2 substring)
+                "section": "5.2 Access Control",  # matches chunk section_header (+2 substring)
+                "pages": [12],  # matches chunk page_numbers=[12,13] (+1)
             }
         ]
         # Fabricated claim: the LLM asserted something unrelated to MFA/access-control.

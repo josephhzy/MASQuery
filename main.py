@@ -290,6 +290,7 @@ def query_endpoint(request: QueryRequest):
         )
 
     import re as _re
+
     _answer_for_tracing = _re.split(
         r"\n+\*{0,2}(?:Sources? Used|References?|Sources?)\*{0,2}\s*[\:\-]?",
         gen_result.answer,

@@ -16,9 +16,7 @@ from config import RAW_DIR
 # Python/httpx string returns 403. The UA below mimics a current desktop browser
 # to reliably fetch the publicly available PDFs.
 _BROWSER_UA = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/125.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 )
 
 # MAS documents — direct download URLs

@@ -223,9 +223,13 @@ class TestSearchModes:
                     rerank=False,
                 )
                 assert len(results) > 0
-                assert results[0].chunk_id == "trm_p1_c0", "Authentication chunk should rank first for hybrid auth query"
+                assert results[0].chunk_id == "trm_p1_c0", (
+                    "Authentication chunk should rank first for hybrid auth query"
+                )
                 scores = [r.relevance_score for r in results]
-                assert scores == sorted(scores, reverse=True), "Hybrid results should be ordered by descending RRF score"
+                assert scores == sorted(scores, reverse=True), (
+                    "Hybrid results should be ordered by descending RRF score"
+                )
 
     def test_invalid_search_mode_raises(self):
         """Invalid modes should fail loudly instead of falling into the hybrid branch."""

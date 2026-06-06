@@ -83,13 +83,9 @@ def _chunk_matches_expectation(
     doc_token = parts[0] if parts else ""
     section_token = parts[1] if len(parts) > 1 else ""
 
-    doc_l = doc_name.lower()
     section_l = section_header.lower()
 
-    doc_ok = (
-        not doc_token
-        or doc_name.lower().replace("_", " ").replace("-", " ").startswith(doc_token)
-    )
+    doc_ok = not doc_token or doc_name.lower().replace("_", " ").replace("-", " ").startswith(doc_token)
     section_ok = (
         not section_token
         or section_token in section_l
