@@ -1,0 +1,61 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # Defaults must match config.py and .env.example so the same .env produces
+      # the same behavior whether the app runs locally or under Docker.
+      - LLM_PROVIDER=${LLM_PROVIDER:-openai}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - SEARCH_MODE=${SEARCH_MODE:-vector}
+      - RERANK_ENABLED=${RERANK_ENABLED:-true}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-*}
+      - INGEST_TOKEN=${INGEST_TOKEN:-}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      # /health returns 200 even when status is "degraded"/"unhealthy" (the body
+      # carries component-level state). Parse the JSON and exit non-zero unless
+      # status == "healthy" so docker/orchestrators can act on real health.
+      test:
+        - "CMD"
+        - "python"
+        - "-c"
+        - |
+          import json, sys, urllib.request
+          try:
+              body = urllib.request.urlopen('http://localhost:8000/health', timeout=5).read()
+              status = json.loads(body).get('status')
+          except Exception as e:
+              print(f'health check error: {e}', file=sys.stderr); sys.exit(1)
+          sys.exit(0 if status == 'healthy' else 1)
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  streamlit:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # No data volume mount — intentional. streamlit_app.py accesses all index
+    # and document data exclusively through the API service (HTTP). If direct
+    # file access is ever added to streamlit_app.py, add a matching volume:
+    #   - ./data:/app/data
+    command: ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    restart: unless-stopped
